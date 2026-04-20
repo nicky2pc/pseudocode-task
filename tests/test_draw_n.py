@@ -1,5 +1,5 @@
 from datetime import date
-from draw_n import get_commit_dates
+from draw_n import get_commit_dates, render_preview
 
 
 def test_returns_sorted_dates():
@@ -39,3 +39,20 @@ def test_col3_only_thursday():
     dates = get_commit_dates()
     week3 = [d for d in dates if date(2024, 1, 22) <= d <= date(2024, 1, 26)]
     assert week3 == [date(2024, 1, 25)]
+
+
+def test_preview_has_5_rows():
+    lines = render_preview()
+    assert len(lines) == 5
+
+
+def test_preview_row0_shape():
+    lines = render_preview()
+    assert '█' in lines[0]
+    assert '2024-01-01' in lines[0]
+    assert '2024-01-29' in lines[0]
+
+
+def test_preview_col1_dot_except_row1():
+    lines = render_preview()
+    assert lines[0].count('█') == 2  # only col0 and col4
